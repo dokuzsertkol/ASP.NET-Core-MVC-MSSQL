@@ -1,0 +1,15 @@
+﻿@model htddict.Models.Entry
+@{
+    ViewData["Title"] = Model.Title;
+    int? authorId = Model.AuthorId;
+}
+<h3>@Model.Title</h3>
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="hidden" name="userId" value="@authorId" />
+    <div>
+        <label for="Content">Content</label>
+        <textarea name="content" rows="4" cols="50">@Model.Content</textarea>
+    </div>
+    <button type="submit">Submit</button>
+</form>

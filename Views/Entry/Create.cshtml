@@ -1,0 +1,25 @@
+﻿@model htddict.Models.Entry
+@{
+	ViewData["Title"] = "Entry";
+}
+
+<h3>Create Entry</h3>
+
+<form asp-action="Create" method="post">
+	<div>
+		<label for="Title">Title</label>
+		<input type="text" asp-for="Title" />
+		<span asp-validation-for="Title" class="text-danger"></span>
+	<div>
+		<label for="Content">Content</label>
+		<textarea asp-for="Content" rows="4" cols="50"></textarea>
+		<span asp-validation-for="Content" class="text-danger"></span>
+	</div>
+	<button type="submit">Submit</button>
+</form>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

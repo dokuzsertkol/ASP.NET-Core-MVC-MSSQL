@@ -1,0 +1,81 @@
+﻿@model htddict.Models.User
+@{
+	string input = TempData["SearchTerm"]?.ToString() ?? string.Empty;
+	ViewData["Title"] = Model?.Name ?? input;
+	var userRole = Context.Session.GetString("Role");
+	var entries = ViewBag.Entries as List<htddict.Models.Entry>;
+}
+
+<h3>Search for "@input"</h3>
+<div>
+	<form asp-controller="user" asp-action="search" method="get" class="d-flex align-items-center">
+		<input type="text" name="u" />
+		<button type="submit">Search User</button>
+	</form>
+</div>
+<hr>
+
+@if (Model == null)
+{
+	<div>
+		<h5>Nothing found.</h5>
+	</div>
+}
+else
+{
+	<div>
+		<label><strong> Username:</strong> @Model.Name </label>
+		<br>
+		<label><strong>Role:</strong> @Model.Role</label>
+		<br>
+		<label><strong>Join Date</strong>: @Model.JoinDate.ToString("M/d/yyyy")</label>
+		<br>
+		<label><strong>Restrictions</strong>: @Model.Restriction</label>
+	</div>
+	if (userRole == "admin")
+	{
+		if (Model.Restriction == "none")
+		{
+			<form asp-action="Ban" method="post">
+				<input type="hidden" name="id" value="@Model.Id" />
+				<button type="submit">Ban</button>
+			</form>
+		}
+		else
+		{
+			<form asp-action="UnBan" method="post">
+				<input type="hidden" name="id" value="@Model.Id" />
+				<button type="submit">Unban</button>
+			</form>
+		}
+		if (Model.Role == "user")
+		{
+			<form asp-action="MakeAdmin" method="post">
+				<input type="hidden" name="id" value="@Model.Id" />
+				<button type="submit">Make Admin</button>
+			</form>
+		}
+		else
+		{
+			<form asp-action="DeAdmin" method="post">
+				<input type="hidden" name="id" value="@Model.Id" />
+				<button type="submit">Demote Admin</button>
+			</form>
+		}
+	}
+	<hr>
+	
+	if (entries != null) if(entries.Count > 0) foreach (var entry in entries)
+	{
+		<div>
+			<a href=@Url.Action("entry", "entry", new { title = entry.Title })>
+				<h5>@entry.Title</h5>
+			</a>
+			<br>
+			<p>@Html.Raw(entry.Content.Replace("\n", "<br>"))</p>
+			<br>
+			<small>@entry.Author?.Name - @entry.Date.ToString()</small>
+		</div>
+		<hr>
+	}
+}

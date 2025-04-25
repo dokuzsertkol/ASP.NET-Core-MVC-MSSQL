@@ -1,0 +1,20 @@
+﻿@model List<htddict.Models.Entry>
+@{
+	ViewData["Title"] = "Entry";
+}
+
+<h3>Entry Page</h3>
+<hr>
+@foreach (var entry in Model)
+{
+	<div>
+		<a href="@Url.Action("entry", "entry", new { title = entry.Title })">
+			<h5>@entry.Title</h5>
+		</a>
+		<br>
+		<p>@Html.Raw(entry.Content.Replace("\n", "<br>"))</p>
+		<br>
+		<small>@entry.Author?.Name - @entry.Date.ToString()</small>
+	</div>
+	<hr>
+}

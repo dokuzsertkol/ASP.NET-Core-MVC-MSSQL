@@ -1,0 +1,9 @@
+﻿@{
+    var theme = Context.Session.GetString("Theme");
+    if (theme != null)
+    {
+        if (theme == "dark") Layout = "~/Views/Shared/_LayoutDark.cshtml";
+        else if (theme == "light") Layout = "~/Views/Shared/_LayoutLight.cshtml";
+    }
+    else Layout = "~/Views/Shared/_LayoutLight.cshtml";
+}

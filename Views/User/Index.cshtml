@@ -1,0 +1,61 @@
+﻿@model htddict.Models.User
+@{
+	ViewData["title"] = Model?.Name ?? "User";
+	var entries = ViewBag.Entries as List<htddict.Models.Entry>;
+}
+<h3>User Page</h3>
+<div>
+	<form asp-controller="user" asp-action="search" method="get" class="d-flex align-items-center">
+		<input type="text" name="u" />
+		<button type="submit">Search User</button>
+	</form>
+</div>
+
+@if (@Model != null)
+{
+	<hr>
+	<div>
+		<label><strong> Username:</strong> @Model.Name </label>
+		<br>
+		<label><strong>Role:</strong> @Model.Role</label>
+		<br>
+		<label><strong>Join Date</strong>: @Model.JoinDate.ToString("M/d/yyyy")</label>
+		<br>
+		<label><strong>Restrictions</strong>: @Model.Restriction</label>
+	</div>
+	<div>
+		<form asp-action="Logout" method="post">
+			<button type="submit">Logout</button>
+		</form>
+	</div>
+	@if (entries != null)
+	{
+		<hr>
+		foreach (var entry in entries)
+		{
+			<div>
+				<a href="@Url.Action("entry", "entry", new { title = entry.Title })">
+					<h5>@entry.Title</h5>
+				</a>
+			</div>
+			<br>
+			<div>
+				<p>@Html.Raw(entry.Content.Replace("\n", "<br>"))</p>
+			</div>
+			<br>
+			<div>
+				<small>@entry.Author?.Name - @entry.Date.ToString()</small>
+			</div>
+			<hr>
+		}
+	}
+}
+else
+{
+	<div>
+		<a href="/user/login">Login</a>
+	</div>
+	<div>
+		<a href="/user/create">Sign Up</a>
+	</div>
+}

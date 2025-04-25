@@ -1,0 +1,28 @@
+﻿@model Entry
+@{
+	ViewData["Title"] = "Entry";
+	var userRole = Context.Session.GetString("Role");
+	int? authorId = Context.Session.GetInt32("UserId");
+}
+<h3>@Model.Title</h3>
+<p>@Html.Raw(Model.Content.Replace("\n", "<br>"))</p>
+@if (Model.Author != null) 
+{
+	<small>@Model.Author?.Name - @Model.Date.ToString()</small>
+}
+<br>
+@if (authorId == Model.AuthorId || userRole == "admin")
+{
+	<br>
+	<form asp-controller="entry" asp-action="edit" method="get" class="d-flex align-items-center">
+		<input type="hidden" name="id" value="@Model.Id" />
+		<input type="hidden" name="userId" value="@Model.AuthorId" />
+		<button type="submit">Edit</button>
+	</form>
+	<form asp-controller="entry" asp-action="delete" method="post" class="d-flex align-items-center">
+		<input type="hidden" name="id" value="@Model.Id" />
+		<input type="hidden" name="userId" value="@Model.AuthorId" />
+		<button type="submit">Delete</button>
+	</form>
+}
+<hr>
