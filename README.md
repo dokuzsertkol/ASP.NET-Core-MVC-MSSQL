@@ -9,6 +9,7 @@ User Management
 - Username/password authentication
 - Role-based access (User and Admin)
 - Admins can oversee and manage all content
+- Admins can manage user roles and suspend accounts
 
 Content Management (CRUD)
 - Create, update, and delete posts
