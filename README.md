@@ -11,11 +11,10 @@ User Management
 - Admins can oversee and manage all content
 
 Content Management (CRUD)
-- Add new posts
-- List all posts
-- View post details
-- Edit existing posts
-- Delete post
+- Create, update, and delete posts
+- Create, update, and delete comments on posts
+- Search and filter posts by keywords
+- View all posts created by a specific user
 
 Layouts
 - Light mode layout
